@@ -94,6 +94,8 @@ paths:
           description: Server error
   /users/{id}:
     get:
+      tags:
+        - Users
       summary: Get user by id
       description: Get user by id
       parameters:
@@ -109,7 +111,50 @@ paths:
           description: Bad request
         500:
           description: Server error
-
+    delete:
+      tags:
+        - Users
+      summary: Delete user by id
+      description: Delete user by id
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: User Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    example: null
+        '400':
+          description: Bad request
+        500:
+          description: Server error
+    patch:
+      tags:
+        - Users
+      summary: Update user by id
+      description: Update user by id
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/users.yaml#/UserUpdateOrCreateRequest'
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/users.yaml#/UserResponse'
+        '400':
+          description: Bad request
+        500:
+          description: Server error
 components:
   securitySchemes:
     bearerAuth:

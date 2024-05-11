@@ -2,15 +2,23 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Support\QuerySearch\Filterable;
+use App\Support\QuerySearch\SearchQueryInterface;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method static Builder filter(SearchQueryInterface $query)
+ */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
-
+    use Filterable,
+        HasFactory,
+        Notifiable,
+        HasApiTokens;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +45,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [
