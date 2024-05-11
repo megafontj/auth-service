@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\UserService;
 use App\Support\QuerySearch\SearchQuery;
 use App\Support\Resources\EmptyResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -21,6 +22,8 @@ class UserController extends Controller
      */
     public function index(SearchQuery $filter)
     {
+        print_r(Auth::user());
+        exit;
         return User::filter($filter)->paginate(20);
     }
 
