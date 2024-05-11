@@ -22,8 +22,6 @@ class UserController extends Controller
      */
     public function index(SearchQuery $filter)
     {
-        print_r(Auth::user());
-        exit;
         return User::filter($filter)->paginate(20);
     }
 
