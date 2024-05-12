@@ -47,6 +47,23 @@ paths:
           description: Bad request
         500:
           description: Server error
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout User
+      description: This method logout user
+      responses:
+        '200':
+          description: User logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResource'
+        '400':
+          description: Bad request
+        500:
+          description: Server error
   /users:
     get:
       tags:
@@ -124,10 +141,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    example: null
+                $ref: '#/components/schemas/EmptyResource'
         '400':
           description: Bad request
         500:
@@ -155,6 +169,8 @@ paths:
           description: Bad request
         500:
           description: Server error
+
+
 components:
   securitySchemes:
     bearerAuth:
@@ -178,3 +194,11 @@ components:
       description: Relationships
       schema:
         type: string
+  schemas:
+    EmptyResource:
+      type: object
+      properties:
+        data:
+          type: object
+          nullable: true
+          example: null
