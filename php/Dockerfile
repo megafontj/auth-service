@@ -1,57 +1,48 @@
 FROM php:8.2.11-fpm
 
-RUN echo "Installing composer"
-RUN cd /tmp \
+# Install composer
+RUN echo "Installing composer" \
+    && cd /tmp \
     && curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
-RUN docker-php-ext-install pdo pdo_mysql
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        apt-utils \
+        nano \
+        wget \
+        dialog \
+        vim \
+        libzip-dev \
+        zip \
+        unzip \
+        libpq-dev \
+        libcurl4-openssl-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        locales \
+        libmcrypt-dev \
+        libicu-dev \
+        libonig-dev \
+        libxml2-dev \
+        curl \
+        git
 
-RUN apt-get update
-
-# Install useful tools
-RUN apt-get -y install apt-utils nano wget dialog vim
-
-# Install important libraries
-RUN apt-get -y install --fix-missing \
-    apt-utils \
-    build-essential \
-    git \
-    curl \
-    libcurl4 \
-    libcurl4-openssl-dev \
-    zlib1g-dev \
-    libzip-dev \
-    zip \
-    libbz2-dev \
-    locales \
-    libmcrypt-dev \
-    libicu-dev \
-    libonig-dev \
-    libxml2-dev \
-    
-
+# Install PHP extensions
 RUN docker-php-ext-install \
-     curl \
-     xml \
+    pdo \
+    pdo_mysql \
+    pdo_pgsql \
+    curl \
+    xml \
+    zip \
+    bz2 \
+    intl
 
-#     exif \
-#     pcntl \
-#     bcmath \
-#     ctype \
-#     iconv \
-#     soap \
-#     pcntl \
-#     mbstring \
-#     tokenizer \
-#     bz2 \
-#     zip \
-#     intl
-
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs npm
 
-# Install Postgre PDO
-RUN apt-get install -y libpq-dev \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql
+# Set working directory
+WORKDIR /var/www/html
+
+CMD ["php-fpm"]

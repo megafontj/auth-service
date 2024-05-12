@@ -9,6 +9,7 @@ use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use App\Support\Resources\EmptyResource;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -30,5 +31,10 @@ class AuthController extends Controller
     {
         $this->authService->logout();
         return new EmptyResource();
+    }
+
+    public function current(): UserResource
+    {
+        return new UserResource(Auth::user());
     }
 }
