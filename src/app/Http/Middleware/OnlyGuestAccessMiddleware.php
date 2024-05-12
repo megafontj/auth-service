@@ -16,7 +16,7 @@ class OnlyGuestAccessMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->bearerToken() !== null && PersonalAccessToken::findToken($request->bearerToken())) {
-            abort(401, 'You are already logged in');
+            abort(403, 'You are already logged in');
         }
         return $next($request);
     }

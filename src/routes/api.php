@@ -12,5 +12,5 @@ Route::controller(AuthController::class)
         Route::post('register',  'register');
         Route::post('login',  'login');
 });
-
+Route::post('auth/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::apiResource('users', UserController::class);
