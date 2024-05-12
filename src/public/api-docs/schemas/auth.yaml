@@ -6,9 +6,11 @@ ReadOnlyProperties:
       example: 1
       description: ID user
     created_at:
-      type: datetime
+      type: string
+      format: date-time
     updated_at:
-      type: datetime
+      type: string
+      format: date-time
 
 RegisterRequest:
   type: object

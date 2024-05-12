@@ -22,7 +22,7 @@ class AuthController extends Controller
         return new UserResource($this->authService->register($request->validated()));
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): TokenResource
     {
         return new TokenResource((object)$this->authService->login($request->covertToDto()));
     }
