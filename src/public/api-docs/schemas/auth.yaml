@@ -12,25 +12,30 @@ ReadOnlyProperties:
       type: string
       format: date-time
 
-RegisterRequest:
+Email:
   type: object
   properties:
-    name:
-      type: string
-      example: Muhammad
-      description: Name of user
     email:
       type: string
       example: safar@gmail.com
       description: Email of user
+
+ExcludeInResponseFields:
+  type: object
+  properties:
     password:
       type: string
       example: secret
       description: Password
-    confirmation_password:
+    password_confirmation:
       type: string
       example: secret
       description: Confirmation password
+
+RegisterRequest:
+  allOf:
+    - $ref: '#/Email'
+    - $ref: '#/ExcludeInResponseFields'
 
 LoginRequest:
   type: object
@@ -58,4 +63,4 @@ RegisterResponse:
     data:
       allOf:
         - $ref: '#/ReadOnlyProperties'
-        - $ref: '#/RegisterRequest'
+        - $ref: '#/Email'

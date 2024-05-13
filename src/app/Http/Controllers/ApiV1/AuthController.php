@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\TokenResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthResource;
 use App\Services\AuthService;
 use App\Support\Resources\EmptyResource;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +17,9 @@ class AuthController extends Controller
     {
     }
 
-    public function register(RegisterRequest $request): UserResource
+    public function register(RegisterRequest $request): AuthResource
     {
-        return new UserResource($this->authService->register($request->validated()));
+        return new AuthResource($this->authService->register($request->validated()));
     }
 
     public function login(LoginRequest $request): TokenResource
@@ -33,8 +33,8 @@ class AuthController extends Controller
         return new EmptyResource();
     }
 
-    public function current(): UserResource
+    public function current(): AuthResource
     {
-        return new UserResource(Auth::user());
+        return new AuthResource(Auth::user());
     }
 }
