@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\LoginDto;
+use App\Jobs\UserRegistered;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,11 @@ class AuthService
 {
     public function register(array $data): User
     {
-        return User::create($data);
+        $user = User::create($data);
+
+        UserRegistered::dispatch($user);
+
+        return $user;
     }
 
     public function login(LoginDto $loginDto): array
