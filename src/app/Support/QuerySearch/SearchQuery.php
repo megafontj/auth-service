@@ -51,11 +51,15 @@ final class SearchQuery implements SearchQueryInterface
         $filters = array_unique($value);
 
         foreach ($filters as $column => $val) {
-            $colInTable = ltrim($column, '*');
-            if ($column[0] === '*' && Schema::hasColumn($table, $colInTable)) {
-                $this->builder->where($colInTable, $val);
-            } else if (Schema::hasColumn($table, $colInTable)) {
+            [$isLikeSearch, $colInTable] = $this->isLikeSearchColumn($column);
+            if ($isLikeSearch && Schema::hasColumn($table, $colInTable)) {
                 $this->builder->where($colInTable, 'like', "%$val%");
+            } else if (Schema::hasColumn($table, $colInTable)) {
+                if (is_array($val)) {
+                    $this->builder->whereIn($colInTable, $val);
+                } else {
+                    $this->builder->where($colInTable, $val);
+                }
             }
         }
 
