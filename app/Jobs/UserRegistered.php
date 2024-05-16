@@ -13,16 +13,15 @@ class UserRegistered implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
-    private array $user;
+    private array $data;
 
     /**
-     * @var User $user
+     * @var array $data
      * Create a new job instance.
      */
-    public function __construct($user)
+    public function __construct(array $data)
     {
-        $this->user = $user->toArray();
+        $this->data = $data;
     }
 
     /**
