@@ -15,7 +15,8 @@ class AuthService
     {
         $user = User::create($data);
 
-        UserRegistered::dispatch(array_merge($data, $user->toArray()))->onQueue('user-registered');
+        // not more docker. Account will be created from api-gateway
+        // UserRegistered::dispatch(array_merge($data, $user->toArray()))->onQueue('user-registered');
 
         return $user;
     }
